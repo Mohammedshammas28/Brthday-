@@ -1215,17 +1215,50 @@
         const voiceAudio = document.getElementById('voice-note');
         const voiceIcon = document.getElementById('voice-play-icon');
         let isVoicePlaying = false;
+        let savedBgMusicTime = 0;
 
         function toggleVoice() {
             if (isVoicePlaying) {
+                // Stop voice audio
                 voiceAudio.pause();
                 voiceIcon.classList.replace('fa-pause', 'fa-play');
+                isVoicePlaying = false;
+
+                // Resume background music from where it left off
+                audio.currentTime = savedBgMusicTime;
+                audio.play();
+                playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                isPlaying = true;
             } else {
+                // Save background music's current time
+                savedBgMusicTime = audio.currentTime;
+
+                // Pause background music
+                audio.pause();
+                playBtn.innerHTML = '<i class="fas fa-play"></i>';
+                isPlaying = false;
+
+                // Play voice audio
+                voiceAudio.currentTime = 0;
                 voiceAudio.play();
                 voiceIcon.classList.replace('fa-play', 'fa-pause');
+                isVoicePlaying = true;
             }
-            isVoicePlaying = !isVoicePlaying;
         }
+
+        // When voice audio ends naturally, resume background music
+        voiceAudio.addEventListener('ended', () => {
+            if (isVoicePlaying) {
+                voiceIcon.classList.replace('fa-pause', 'fa-play');
+                isVoicePlaying = false;
+
+                // Resume background music from where it left off
+                audio.currentTime = savedBgMusicTime;
+                audio.play();
+                playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                isPlaying = true;
+            }
+        });
 
         // --- MODAL LOGIC ---
         function openModal() {
