@@ -151,7 +151,7 @@
         /* Photo Gallery Grid */
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
         }
 
@@ -167,10 +167,19 @@
 
         .photo-card img {
             width: 100%;
-            height: 300px;
+            height: 320px;
             object-fit: cover;
             border-radius: 10px;
             transition: transform 0.5s ease;
+        }
+
+        .gallery-grid .photo-card:nth-child(5) img {
+            object-position:
+                top;
+        }
+
+        .gallery-grid .photo-card:nth-child(2) img {
+            object-position: center top;
         }
 
         .photo-card:hover {
@@ -914,7 +923,7 @@
         <button id="play-pause"><i class="fas fa-play"></i></button>
         <span style="font-size: 0.8rem; margin-right: 10px;">Play our song ❤️</span>
         <!-- Replace source with your actual music file link -->
-        <audio id="bg-music" loop>
+        <audio id="bg-music" loop autoplay>
             <source src="Song.mp3" type="audio/mpeg">
         </audio>
     </div>
@@ -957,7 +966,7 @@
 
     <!-- Photo Gallery -->
     <section id="gallery">
-        <h2 class="section-title">My Beautiful Angel 💕</h2>
+        <h2 class="section-title">My Beautiful Cute Little Baby 💕</h2>
         <div class="gallery-grid">
             <!-- IMPORTANT: Place your image files in the same folder as this index.html file -->
             <!-- Rename your photos to match these names (photo1.jpg, photo2.jpg, etc.) -->
@@ -969,7 +978,7 @@
                 <img src="photo2.jpg" alt="Memory 2">
             </div>
             <div class="photo-card animate__animated animate__fadeIn">
-                <img src="photo3.jpg" alt="Memory 3">
+                <img src="photo7.jpg" alt="Memory 3">
             </div>
             <div class="photo-card animate__animated animate__fadeIn">
                 <img src="photo4.jpg" alt="Memory 4">
@@ -985,31 +994,19 @@
 
     <!-- Voice Message Section -->
     <section id="voice">
-        <h2 class="section-title">Listen to My Heart 🎙️</h2>
+        <h2 class="section-title">A Message For My Wifey</h2>
         <div class="voice-card">
             <div class="voice-icon">
                 <i class="fas fa-microphone-lines"></i>
             </div>
             <div class="voice-info">
                 <div class="voice-title">A Special Message for You</div>
-                <audio id="voice-note" src="https://www.w3schools.com/html/horse.mp3"></audio>
+                <audio id="voice-note" src="Audio.mp3"></audio>
                 <button class="surprise-btn" style="margin-top: 10px; padding: 10px 20px; font-size: 0.9rem;"
                     onclick="toggleVoice()">
                     <i class="fas fa-play" id="voice-play-icon"></i> Play My Message ❤️
                 </button>
             </div>
-        </div>
-    </section>
-
-    <!-- Video Section -->
-    <section id="video">
-        <h2 class="section-title">A Special Video For You</h2>
-        <div class="video-container">
-            <!-- Replace this placeholder video or use an iframe from YouTube -->
-            <video controls poster="https://picsum.photos/800/450">
-                <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
         </div>
     </section>
 
@@ -1042,13 +1039,13 @@
             </div>
             <div class="timeline-item right animate__animated animate__fadeInRight">
                 <div class="timeline-content">
-                    <h3>Our First Trip</h3>
+                    <h3>The Time We Spent Together</h3>
                     <p>Collecting memories and exploring the world, one step at a time with you.</p>
                 </div>
             </div>
             <div class="timeline-item left animate__animated animate__fadeInLeft">
                 <div class="timeline-content">
-                    <h3>A Special Milestone</h3>
+                    <h3>First Realization</h3>
                     <p>The moment I realized I wanted to spend every single day with you.</p>
                 </div>
             </div>
@@ -1066,8 +1063,8 @@
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal()">&times;</span>
             <h2 style="color: var(--accent); font-family: 'Pacifico', cursive;">Surprise! 🎉</h2>
-            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJvYmE5NzZ6YzRmNmp4eGljZ3R6Zzh3ZzFhZzh6Zzh6Zzh6Zzh6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/LpDmM2WXO6GfSeUvbb/giphy.gif"
-                alt="Confetti" style="width: 100%; border-radius: 10px; margin: 20px 0;">
+            <img src="photo3.jpg" alt="Surprise"
+                style="width: 100%; max-width: 400px; height: auto; border-radius: 10px; margin: 20px 0; object-fit: cover;">
             <p style="font-size: 1.2rem;">I have a special gift waiting for you in person! But until then, just know
                 that you are my everything. ❤️</p>
         </div>
@@ -1249,6 +1246,16 @@
         window.onload = () => {
             // Start typing
             type();
+
+            // Auto-play background music with delay and error handling
+            setTimeout(() => {
+                audio.play().catch(error => {
+                    console.log('Autoplay prevented:', error);
+                    // User interaction is needed - show hint to user
+                });
+                playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                isPlaying = true;
+            }, 500);
 
             // Start countdown
             setInterval(updateCountdown, 1000);
